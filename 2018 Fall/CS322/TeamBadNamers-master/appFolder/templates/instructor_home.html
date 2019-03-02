@@ -1,0 +1,245 @@
+<!--Hello {{current_user.username}} user_id = {{current_user.id}}-->
+<!--<button class='logout' style='display:block; width: 40%; float: right; background-color: red;' onclick="window.location.href = '{{url_for('logout')}}';"> Log out</button>-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name=_name content={{current_user.username}}>
+    <meta name=_id content={{current_user.id}}>
+    <title>Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/styles/home.css">
+
+    <script src="../static/scripts/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../static/scripts/instructor_home_handler.js?v=167"></script>
+    <script type="text/javascript">
+     $(function() {
+      Home.start();
+     });
+    </script>
+    <script>
+      var isopen=false;
+      function profilehandle(){
+        if(isopen){
+          document.getElementById("profile").style.display="none";
+          isopen=false;
+
+          document.getElementById("desktop").removeAttribute("style")
+          document.getElementById("accordion").removeAttribute("style")
+        }
+        else{
+          document.getElementById("profile").style.display="block";
+          isopen=true;
+
+          document.getElementById("desktop").style.display="none";
+          document.getElementById("accordion").style.display="none";
+        }
+      }
+    </script>
+</head>
+<body>
+  <!-- Start of Navbar -->
+  <nav class='navbar navbar-light'>
+    <a class="navbar-brand" href="#">Welcome, {{current_user.username}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_content">
+      <span class="dark-blue-text">
+        <i class="fa fa-bars fa-size"></i>
+      </span>
+    </button>
+      <div class="collapse navbar-collapse" id="nav_content">
+        <div class="navbar-nav text-right">
+          <a class="nav-item nav-link contrast active" href="#">Apply<span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link contrast" onclick="profilehandle()"> Settings </a>
+          <a class="nav-item nav-link contrast" onclick="window.location.href = '{{url_for('logout')}}';">Log Out</a>
+        </div>
+      </div>
+  </nav>
+  <!-- End of Navbar -->
+  <div class="profile" id="profile">
+    <form>
+            Role: {{current_user.role}} <br>
+            Username: {{current_user.username}} <br>
+            Password: <input type="text" class="profile password_input" name="password"/> <br>
+            <br>
+            Name: <input type="text" class="profile name_input" name="name"/><br>
+            Last Name: <input type="text" class="profile lastname_input" name="lastname"/><br>
+            WSU ID: <input type="text" class="profile id_input" name="id"/><br>
+            Email:  <input type="text" class="profile email_input" name="email"/><br>
+            Phone:  <input type="text" class="profile phone_input" name="phone"/><br>
+    </form>
+    <a class="change"> Change </a>
+  </div>
+<!-- Start of Desktop Page -->
+  <div id='desktop' class='container-fluid'>
+  <div id='top_buffer_mobile_desktop' class='top_buffer'></div>
+  <div class='row'>
+    <div id='course_list_desktop' class='col-lg-5'>
+      <div class='box color text-center rounded border border-light scrollable'>
+        <p>Course List</p>
+        <div id=accordion_inner_desktop class='p-4 course_data'>
+
+              <!-- Add Course Via Backend -->
+
+
+        </div>
+      </div>
+    </div>
+
+    <div id='application_desktop' class='col-lg-2 invisible'>
+      <div class='box color rounded border border-light scrollable'>
+        <button type="button" id="close" class="close pr-1" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p>Application Review</p>
+        <br>
+        <form class='m-3 application' method='POST'>
+          <div class='form-group'>
+            <label for='course_number'> Course Number</label>
+            <input type='text' class='form-control' id='course_number'disabled>
+          </div>
+          <div class='form-group'>
+            <label for='grade'> Grade Received</label>
+            <input type='text' class='form-control' id='grade'disabled>
+          </div>
+          <div class='form-group'>
+            <label for='st'> Semester Taken</label>
+            <input type='text' class='form-control' id='st'disabled>
+          </div>
+          <div class='form-group'>
+            <label for='sa'> Semester Applying</label>
+            <input type='text' class='form-control' id='sa'disabled>
+          </div>
+          <div class='custom-control custom-checkbox text-center'>
+            <input type='checkbox' class='custom-control-input' id='check'disabled>
+            <label class='custom-control-label' for='check'>Have You TA'd Before?</label>
+          </div>
+          <select class="form-control" id="status_select">
+            <option>Under Review</option>
+            <option>Accepted</option>
+            <option>Denied</option>
+          </select>
+
+          <button type='submit' class='btn btn-outline-dark m-3'>Submit</button>
+        </form>
+      </div>
+    </div>
+    <div id='preference_list_desktop' class='col-lg-5'>
+      <div class='box color rounded border border-light scrollable'><p>Teaching List</p>
+        <div id='accordion_pref-d' class='p-4 preference_data-d'>
+
+          <!-- Add Course Via javascript -->
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id='bottom_buffer_desktop' class='bottom_buffer'></div>
+</div>
+<!-- End of Desktop Page -->
+
+
+
+
+<!-- Start of Mobile Page -->
+<div id="accordion" class='p-4'>
+  <div id='top_buffer_mobile' class='top_buffer'></div>
+
+  <!-- Card For Course List -->
+  <div id='course_list_card' class="card color">
+    <div class="card-header" id="course_list_mobile">
+      <h5 class="mb-0 text-center">
+        <button class="btn btn-outline-secondary border-light btn-block my-btn collapsed" data-toggle="collapse" data-target="#course_list_mobile_collapse">
+          Course List
+        </button>
+      </h5>
+    </div>
+
+    <div id="course_list_mobile_collapse" class="collapse" data-parent="#accordion">
+      <div class="card-body body_height scrollable">
+        <div id=accordion_inner_mobile class='p-4 course_data'>
+            <!-- Add Course Via Backend -->
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Course Card End -->
+
+  <!-- Card For Application -->
+  <div id='application_card' class="card color">
+    <div class="card-header" id="application_mobile">
+      <h5 class="mb-0 text-center">
+        <button class="btn btn-outline-secondary border-light btn-block my-btn collapsed" data-toggle="collapse" data-target="#application_mobile_collapse">
+          Application
+        </button>
+      </h5>
+    </div>
+    <div id="application_mobile_collapse" class="collapse" data-parent="#accordion">
+      <div class="card-body body_height scrollable">
+        <p> TA Application</p>
+        <br>
+        <form class='m-3 application' method='POST'>
+          <div class='form-group'>
+            <label for='course_number'> Course Number</label>
+            <input type='text' class='form-control' id='course_number'disabled>
+          </div>
+          <div class='form-group'>
+            <label for='grade'> Grade Received</label>
+            <input type='text' class='form-control' id='grade'disabled>
+          </div>
+          <div class='form-group'>
+            <label for='st'> Semester Taken</label>
+            <input type='text' class='form-control' id='st'disabled>
+          </div>
+          <div class='form-group'>
+            <label for='sa'> Semester Applying</label>
+            <input type='text' class='form-control' id='sa'disabled>
+          </div>
+          <div class='custom-control custom-checkbox text-center'>
+            <input type='checkbox' class='custom-control-input' id='check'disabled>
+            <label class='custom-control-label' for='check'>Have You TA'd Before?</label>
+          </div>
+          <select class="form-control" id="status_select">
+            <option>Under Review</option>
+            <option>Accepted</option>
+            <option>Denied</option>
+          </select>
+
+          <button type='submit' class='btn btn-outline-dark m-3'>Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Application Card End -->
+
+  <!-- Card For Preference List -->
+  <div id='preference_list_card' class="card color">
+    <div class="card-header" id="preference_list_mobile">
+      <h5 class="mb-0 text-center">
+        <button class="btn btn-outline-secondary border-light btn-block my-btn collapsed" data-toggle="collapse" data-target="#preference_list_mobile_collapse">
+          Teaching List
+        </button>
+      </h5>
+    </div>
+    <div id="preference_list_mobile_collapse" class="collapse" data-parent="#accordion">
+      <div class="card-body body_height scrollable">
+        <div id='accordion_pref-m' class='p-4 preference_data-m'>
+          <!-- Add Course Via javascript -->
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Preference Card End  -->
+  <div id='botton_buffer_mobile' class='bottom_buffer'></div>
+</div>
+<!-- End of Mobile Page -->
+</body></html>

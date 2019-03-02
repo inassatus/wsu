@@ -1,0 +1,77 @@
+html{
+  width: 100%;
+  margin:auto;
+  background: url('../images/background.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: absolute;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+body
+{
+    background-color: transparent;
+}
+
+input
+{
+    font-family: Overpass;
+    display: block;
+    width: 80%;
+    height: 40px;
+    margin: 5px;
+    text-align: center;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 60px;
+
+    background-color: rgba(192,192,192,0.69);
+}
+.wrapper
+{
+  width: 40%;
+  margin: 150px auto;
+}
+::placeholder
+{
+  font-family: Overpass;
+  color: black;
+  text-align: center;
+}
+
+input[name="role"]
+{
+    display: inline-block;
+    width: 20px;
+}
+
+input[name="username"]
+{
+    margin-top: 25px;
+}
+
+input[name='submit']
+{
+  background: rgba(180, 43, 43, 0.69);
+  font-size: 20px;
+}
+input[name="submit"]:hover
+{
+  background-color: #C02626;
+  cursor: pointer;
+}
+
+
+.no_bullets{
+  display: inline;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+input[type="radio"] {
+  margin-top: -1px;
+  vertical-align: middle;
+}

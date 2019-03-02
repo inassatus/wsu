@@ -1,0 +1,132 @@
+.data
+	t2: .byte 0
+	t3: .word 0
+	t4: .byte 0
+	t5: .word 0
+	start: .asciiz "This program calculates a+b=c. You can type anything you want, but the program shows the result only when you submitted a+b=c form. *a and b must be single digit."
+.text
+main:
+	la $a0, start
+	li $v0, 4
+	syscall
+	
+	lui $t0, 0xffff
+	lw $t1, 0($t0)
+	ori $t1, $t1, 0x0002
+	sw $t1, 0($t0)
+loop:
+	j loop
+.kdata
+
+.ktext 0x80000180
+
+checkhard:
+	mfc0 $k0, $13
+	srl $a0, $k0, 2
+	andi $a0, $a0, 0x1f
+	bne $a0, 0, recover
+
+checkinterrupt:
+	srl $a0, $k0, 8
+	andi $a0, $a0, 0x1f
+	bne $a0, 1, recover
+
+load:
+	lbu $t2, t2
+	lw $t3, t3
+	lbu $t4, t4
+	lbu $t5, t5
+	
+keyboard:
+	li $v0, 0xFFFF0000
+	lbu $a0, 0xFFFF0004
+	
+check:
+	beq $a0, '+', plus
+	beq $a0, '=', equals
+	bgt $a0, '9', reset
+	blt $a0, '0', reset
+	beq $t2, 0, number1
+	beq $t4, 0, number2
+reset:
+	addi $t2, $zero, 0
+	addi $t3, $zero, 0
+	addi $t4, $zero, 0
+	addi $t5, $zero, 0
+	j display
+	
+number1:
+	add $t2, $t2, $a0
+	j display
+plus:
+	beq $t2, 0, reset
+	addi $t3, $t3, 1
+	bne $t3, 1, reset
+	j display
+number2:
+	beq $t2, 0, reset
+	bne $t3, 1, reset
+	add $t4, $t4, $a0
+	j display
+equals:
+	beq $t2, 0, reset
+	bne $t3, 1, reset
+	beq $t4, 0, reset
+	
+	lw $v0, 0xFFFF0008
+	sb $a0, 0xFFFF000c
+	li $v0,11
+	syscall
+	
+	subi $t2, $t2, '0'
+	subi $t4, $t4, '0'
+	add $t5, $t2, $t4
+	
+	bgt $t5, 9, twodigit
+	add $a0, $t5, '0'
+	lw $v0, 0xFFFF0008
+	sb $a0, 0xFFFF000c
+	li $v0,11
+	syscall
+	
+	addi $t2, $zero, 0
+	addi $t3, $zero, 0
+	addi $t4, $zero, 0
+	addi $t5, $zero, 0
+	j recover
+	
+twodigit:
+	div $k1, $t5, 10
+	mfhi $k1
+	div $t5, $t5, 10
+	
+	add $a0, $t5,'0'
+	lw $v0, 0xFFFF0008
+	sb $a0, 0xFFFF000c
+	li $v0,11
+	syscall
+	
+	add $a0, $k1, '0'
+	lw $v0, 0xFFFF0008
+	sb $a0, 0xFFFF000c
+	li $v0,11
+	syscall
+	
+	addi $t2, $zero, 0
+	addi $t3, $zero, 0
+	addi $t4, $zero, 0
+	addi $t5, $zero, 0
+	j recover
+	
+display:
+	lw $v0, 0xFFFF0008
+	sb $a0, 0xFFFF000c
+	li $v0,11
+	syscall
+
+recover:
+	sb $t2, t2
+	sw $t3, t3
+	sb $t4, t4
+	sb $t5, t5
+	eret

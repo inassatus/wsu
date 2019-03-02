@@ -1,0 +1,98 @@
+.data
+	start: .asciiz "start (you can enter chars, but the program calculate the result only when a+b= form is checked) \n"
+	digit: .space 99
+.text
+	la $a0, start
+	li $v0, 4
+	syscall
+
+keyboard:
+	lw $t0, 0xffff0000
+	andi $t0, $t0, 1
+	beq $t0, $zero, keyboard
+	
+	lbu $a0, 0xffff0004
+
+check:
+	sle $s0, $a0, '9'
+	sge $s1, $a0, '0'
+	and $s0, $s0, $s1
+	beq $s0, 1, number1
+	beq $a0, '+', plus
+	beq $a0, '=', equals
+reset:
+	addi $s2, $zero, 0
+	addi $s3, $zero, 0
+	addi $s4, $zero, 0
+	addi $t2, $zero, 0
+	addi $t3, $zero, 0
+	j display
+number1:
+	beq $s3, 1, number2
+	#plus or minus exist, then skip
+	mul $t2, $t2, 10
+	add $t2, $t2, $a0
+	subi $t2, $t2, '0' 
+	addi $s2, $zero, 1
+	j display
+number2:
+	mul $t3, $t3, 10
+	add $t3, $t3, $a0
+	subi $t3, $t3, '0'
+	addi $s4, $zero, 1
+	j display 
+plus:
+	beq $s2, 0, reset
+	#if fist number is not exist then reset
+	addi $s3, $s3, 1
+	bne $s3, 1, reset
+	#if operation called twice then reset
+	j display
+equals:
+	beq $s4, 0, reset
+	addi $s5, $s5, 1
+	j display
+
+display:
+	lw $t1, 0xffff0008
+	andi $t1, $t1, 1
+	beq $t1, $zero, display
+	
+	sb $a0, 0xffff000c
+	
+	li $v0, 11
+	syscall
+	
+	beq $s5, 1, result
+	
+	j keyboard	
+
+result:
+	add $t4, $t2, $t3
+	li $s2, 0
+	la $s1, digit
+intoarray:
+	div $s0, $t4, 10
+	mfhi $s0
+	sb $s0, 0($s1)
+	addi $s1, $s1, 4
+	div $t4, $t4, 10
+	addi $s2, $s2, 1
+	beq $t4, $zero, print
+	j intoarray
+print:
+	beq $s2, 0, end
+	lw $t1, 0xffff0008
+	andi $t1, $t1, 1
+	beq $t1, $zero, print
+	addi $s1, $s1, -4
+	lb $a0, 0($s1)
+	li $v0, 1
+	syscall
+	addi $a0, $a0, '0'
+	sb $a0, 0xffff000c
+	addi $s2, $s2, -1
+	j print
+end:
+	li $v0, 10
+	syscall

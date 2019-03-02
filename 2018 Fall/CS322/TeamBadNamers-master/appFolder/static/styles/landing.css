@@ -1,0 +1,66 @@
+html{
+  width: 100%;
+  margin:auto;
+  background: url('../images/landing_bg.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: absolute;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+h1{
+  font-family: Overpass;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 5vw;
+  text-align: center;
+
+  color: #FFFFFF;
+  text-shadow:
+    -1px -1px 0 #FF0000,
+    1px -1px 0 #FF0000,
+    -1px 1px 0 #FF0000,
+    1px 1px 0 #FF0000;
+}
+
+.wrapper{
+  width: 60%;
+  margin: 150px auto; /*Change this value if you want to move the buttons */
+}
+button{
+  width: 400px;
+  height: 85px;
+  left: 117px;
+  top: 591px;
+
+  margin: 0 30px;
+
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 60px;
+
+  background: rgba(180, 43, 43, 0.69);
+
+  font-family: Overpass;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 4vw;
+  text-align: center;
+
+  color: #FFFFFF;
+}
+.btns{
+  width: 100%;
+  margin: 0 230px;
+}
+
+
+button:hover{
+  background-color: #C02626;
+  cursor: pointer;
+}

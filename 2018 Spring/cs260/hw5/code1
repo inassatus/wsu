@@ -1,0 +1,64 @@
+.data
+	input: .asciiz "enter n: \n"
+	output: .asciiz "output: \n"
+
+.text
+main:
+	li $v0, 4
+	la $a0, input
+	syscall
+	li $v0, 5
+	syscall
+	
+	move $a0, $v0
+	jal fib
+	move $a2, $v0
+	
+	li $v0, 4
+	la $a0, output
+	syscall
+	li $v0, 1
+	move $a0, $a2
+	syscall
+	li $v0, 10
+	syscall
+
+.globl fib
+fib:	
+	li $t2, 2
+	li $t3, 3
+
+	subu $sp, $sp, 12
+	sw $ra, 8($sp)
+	sw $s1, 4($sp)
+	sw $s2, 0($sp)
+
+	move $s1, $a0
+	
+	li $v0, 0
+	blt $s1, 0, return
+	
+	li $v0, 1
+	beq $s1, 0, return
+	
+	li $v0, 2
+	beq $s1, 1, return
+
+	addi $a0, $s1, -1
+	jal fib
+	move $s2, $v0
+	move $t4, $s2
+	mul $s2, $t4, $t2
+
+	addi $a0, $s1, -2
+	jal fib
+	move $t4, $v0
+	mul $v0,$t4,$t3
+	add $v0, $s2, $v0
+
+return:
+	lw $ra, 8($sp)
+	lw $s1, 4($sp)
+	lw $s2, 0($sp)
+	addu $sp, $sp, 12
+	jr $ra

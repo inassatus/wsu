@@ -1,0 +1,72 @@
+body{
+    width: 100%;
+
+    margin:auto;
+    background: url('../images/Desktop.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+  .top_buffer{
+    margin-top: 100px;
+  }
+  .bottom_buffer{
+    margin-top: 100px;
+  }
+  .box{
+    height: 550px;
+  }
+  p{
+    text-align: center;
+  }
+  .fa-size{
+    font-size: 35px;
+  }
+  .color{
+    background-color: rgba(196, 196, 196, 0.55);
+  }
+  .contrast{
+
+  }
+  .my-btn{
+    color: black;
+  }
+
+  .scrollable{
+    overflow-y: auto;
+  }
+
+  @media (max-width: 992px) {
+
+    .top_buffer{
+      margin: 20%;
+    }
+    .bottom_buffer{
+      margin: 20%;
+    }
+    .body_height{
+      height: 70vh;
+    }
+}
+div.profile{
+  background-color: rgba(196, 196, 196, 0.55);
+  margin: auto;
+  display: none;
+  float: right;
+  color: darkred;
+}
+
+input.profile{
+  color: darkred;
+  background: none;
+  border: none;
+}
+
+a.change{
+  display: block;
+  text-align: center;
+}
